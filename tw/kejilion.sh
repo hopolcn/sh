@@ -1,5 +1,5 @@
 #!/bin/bash
-sh_v="4.2.6"
+sh_v="4.2.7"
 
 
 gl_hui='\e[37m'
@@ -1401,8 +1401,7 @@ install_ldnmp() {
 
 
 	  restart_ldnmp
-
-
+	  sleep 2
 
 	  clear
 	  echo "LDNMP環境安裝完畢"
@@ -8319,8 +8318,12 @@ linux_ldnmp() {
 	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/sitemap"
 	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/oauth"
 	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/best-answer:*"
+	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/upload"
+	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/gamification"
+	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/byobu:*"
 	  docker exec php sh -c "cd /var/www/html/$yuming && composer require v17development/flarum-seo"
 	  docker exec php sh -c "cd /var/www/html/$yuming && composer require clarkwinkelmann/flarum-ext-emojionearea"
+
 
 	  restart_ldnmp
 
@@ -10757,6 +10760,12 @@ while true; do
 			sed -i "s/^EXPOSE_NGINX_PORT=.*/EXPOSE_NGINX_PORT=${docker_port}/; s/^EXPOSE_NGINX_SSL_PORT=.*/EXPOSE_NGINX_SSL_PORT=8858/" /home/docker/dify/docker/.env
 
 			docker compose up -d
+
+			chown -R 1001:1001 /home/docker/dify/docker/volumes/app/storage
+			chmod -R 755 /home/docker/dify/docker/volumes/app/storage
+			docker compose down
+			docker compose up -d
+
 			clear
 			echo "已經安裝完成"
 			check_docker_app_ip

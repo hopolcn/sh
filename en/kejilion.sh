@@ -1,5 +1,5 @@
 #!/bin/bash
-sh_v="4.2.6"
+sh_v="4.2.7"
 
 
 gl_hui='\e[37m'
@@ -1401,8 +1401,7 @@ install_ldnmp() {
 
 
 	  restart_ldnmp
-
-
+	  sleep 2
 
 	  clear
 	  echo "The LDNMP environment is installed"
@@ -4738,7 +4737,7 @@ sed -i 's/^\s*#\?\s*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_confi
 sed -i 's/^\s*#\?\s*PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config;
 rm -rf /etc/ssh/sshd_config.d/* /etc/ssh/ssh_config.d/*
 restart_ssh
-echo -e "${gl_lv}ROOT login setup is completed!${gl_bai}"
+echo -e "${gl_lv}ROOT login setup is complete!${gl_bai}"
 
 }
 
@@ -6354,7 +6353,7 @@ disk_manager() {
 	send_stats "Hard disk management function"
 	while true; do
 		clear
-		echo "Hard drive partition management"
+		echo "Hard disk partition management"
 		echo -e "${gl_huang}This feature is under internal testing and should not be used in a production environment.${gl_bai}"
 		echo "------------------------"
 		list_partitions
@@ -6424,7 +6423,7 @@ add_task() {
 				if [[ -z "$line" && "$password_or_key" == *"-----BEGIN"* ]]; then
 					break
 				fi
-				# If it is the first line or you have already started entering the key content, continue adding
+				# If it is the first line or you have already started to enter the key content, continue adding
 				if [[ -n "$line" || "$password_or_key" == *"-----BEGIN"* ]]; then
 					password_or_key+="${line}"$'\n'
 				fi
@@ -7190,7 +7189,7 @@ docker_ssh_migration() {
 				local VOL_ARGS=""
 				for path in $VOL_PATHS; do VOL_ARGS+="-v $path:$path "; done
 
-				# Mirror
+				# mirror
 				local IMAGE
 				IMAGE=$(jq -r '.[0].Config.Image' "$inspect_file")
 
@@ -8319,8 +8318,12 @@ linux_ldnmp() {
 	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/sitemap"
 	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/oauth"
 	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/best-answer:*"
+	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/upload"
+	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/gamification"
+	  docker exec php sh -c "cd /var/www/html/$yuming && composer require fof/byobu:*"
 	  docker exec php sh -c "cd /var/www/html/$yuming && composer require v17development/flarum-seo"
 	  docker exec php sh -c "cd /var/www/html/$yuming && composer require clarkwinkelmann/flarum-ext-emojionearea"
+
 
 	  restart_ldnmp
 
@@ -10757,6 +10760,12 @@ while true; do
 			sed -i "s/^EXPOSE_NGINX_PORT=.*/EXPOSE_NGINX_PORT=${docker_port}/; s/^EXPOSE_NGINX_SSL_PORT=.*/EXPOSE_NGINX_SSL_PORT=8858/" /home/docker/dify/docker/.env
 
 			docker compose up -d
+
+			chown -R 1001:1001 /home/docker/dify/docker/volumes/app/storage
+			chmod -R 755 /home/docker/dify/docker/volumes/app/storage
+			docker compose down
+			docker compose up -d
+
 			clear
 			echo "Installation completed"
 			check_docker_app_ip
@@ -12784,7 +12793,7 @@ linux_work() {
 	  echo -e "${gl_kjlan}2.   ${gl_bai}Work Area 2"
 	  echo -e "${gl_kjlan}3.   ${gl_bai}Work Area 3"
 	  echo -e "${gl_kjlan}4.   ${gl_bai}Work Area 4"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}Workspace No. 5"
+	  echo -e "${gl_kjlan}5.   ${gl_bai}Work Area 5"
 	  echo -e "${gl_kjlan}6.   ${gl_bai}Work Area 6"
 	  echo -e "${gl_kjlan}7.   ${gl_bai}Work Area 7"
 	  echo -e "${gl_kjlan}8.   ${gl_bai}Work Area 8"
@@ -13256,8 +13265,8 @@ EOF
 						;;
 					2)
 						rm -f /etc/gai.conf
-						echo "Switched to IPv6 first"
-						send_stats "Switched to IPv6 first"
+						echo "Switched to IPv6 priority"
+						send_stats "Switched to IPv6 priority"
 						;;
 
 					3)
@@ -14886,7 +14895,7 @@ echo "docker image management k docker img |k docker image"
 echo "LDNMP site management k web"
 echo "LDNMP cache cleaning k web cache"
 echo "Install WordPress k wp | k wordpress | k wp xxx.com"
-echo "Install reverse proxy k fd |k rp |k reverse proxy |k fd xxx.com"
+echo "安装反向代理        k fd |k rp |k 反代 |k fd xxx.com"
 echo "Install load balancing k loadbalance |k load balancing"
 echo "Install L4 load balancing k stream |k L4 load balancing"
 echo "firewall panel k fhq |k firewall"
