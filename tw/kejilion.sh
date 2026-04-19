@@ -1231,7 +1231,7 @@ add_swap() {
 	# 確保 /swapfile 不再被使用
 	swapoff /swapfile
 
-	# 刪除舊的 /swapfile
+	# 删除旧的 /swapfile
 	rm -f /swapfile
 
 	# 建立新的 swap 分割區
@@ -1572,7 +1572,7 @@ certs_status() {
 			mkdir -p /home/web/certs
 
 			# 1. 輸入憑證 (ECC 和 RSA 憑證開頭都是 BEGIN CERTIFICATE)
-			echo "請貼上 證書 (CRT/PEM) 內容 (以兩次回車結束)："
+			echo "请粘贴 证书 (CRT/PEM) 内容 (按两次回车结束)："
 			local cert_content=""
 			while IFS= read -r line; do
 				[[ -z "$line" && "$cert_content" == *"-----BEGIN"* ]] && break
@@ -2274,7 +2274,7 @@ web_security() {
 
 					  if [ -z "$existing_cron" ]; then
 						  (crontab -l 2>/dev/null; echo "$cron_job") | crontab -
-						  echo "高負載自動開盾腳本已新增"
+						  echo "高负载自动开盾脚本已添加"
 					  else
 						  echo "自動開盾腳本已存在，無需添加"
 					  fi
@@ -2571,7 +2571,7 @@ check_docker_image_update() {
 		# --- 場景 A: 鏡像在 GitHub (ghcr.io) ---
 		# 提取倉庫路徑，例如 ghcr.io/onexru/oneimg -> onexru/oneimg
 		local repo_path=$(echo "$full_image_name" | sed 's/ghcr.io\///' | cut -d':' -f1)
-		# 註：ghcr.io 的 API 比較複雜，通常最快的方法是查 GitHub Repo 的 Release
+		# 注意：ghcr.io 的 API 比较复杂，通常最快的方法是查 GitHub Repo 的 Release
 		local api_url="https://api.github.com/repos/$repo_path/releases/latest"
 		local remote_date=$(curl -s "$api_url" | jq -r '.published_at' 2>/dev/null)
 
@@ -8343,7 +8343,7 @@ linux_ldnmp() {
 	  echo "資料庫名稱:$dbname"
 	  echo "使用者名稱:$dbuse"
 	  echo "密碼:$dbusepasswd"
-	  echo "表前綴: discuz_"
+	  echo "表前缀: discuz_"
 
 
 		;;
@@ -8808,7 +8808,7 @@ linux_ldnmp() {
 	  echo "開始部署$webname"
 	  add_yuming
 	  echo -e "域名格式:${gl_huang}google.com${gl_bai}"
-	  read -e -p "請輸入你的反代網域:" fandai_yuming
+	  read -e -p "请输入你的反代域名: " fandai_yuming
 	  nginx_install_status
 
 	  wget -O /home/web/conf.d/$yuming.conf ${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/reverse-proxy-domain.conf
@@ -9373,9 +9373,9 @@ while true; do
 		  local app_text=$(grep "app_text=" "$f" | cut -d'=' -f2 | tr -d '"' | tr -d "'")
 
 		  # 檢查安裝狀態 (匹配 appno.txt 中的 ID)
-		  # 這裡假設 appno.txt 中記錄的是 base_name (即檔名)
+		  # 这里假设 appno.txt 中记录的是 base_name (即文件名)
 		  if echo "$app_numbers" | grep -q "^$base_name$"; then
-			  # 如果已安裝：顯示 base_name - 描述 [已安裝] (綠色)
+			  # 如果已安装：显示 base_name - 描述 [已安装] (绿色)
 			  echo -e "${gl_kjlan}$base_name${gl_bai} - ${gl_lv}$app_text[已安裝]${gl_bai}"
 		  else
 			  # 如果未安裝：正常顯示
@@ -12607,7 +12607,7 @@ while true; do
 		}
 
 		local docker_describe="開源的點對點檔案同步工具，類似 Dropbox、Resilio Sync，但完全去中心化。"
-		local docker_url="官网介绍: https://github.com/syncthing/syncthing"
+		local docker_url="官網介紹: https://github.com/syncthing/syncthing"
 		local docker_use=""
 		local docker_passwd=""
 		local app_size="1"
@@ -12888,7 +12888,7 @@ discourse,yunsou,ahhhhfs,nsgame,gying" \
 		}
 
 		local docker_describe="是一個適用於個人或小型團隊的線上網盤程式。"
-		local docker_url="官網介紹: https://github.com/zfile-dev/zfile"
+		local docker_url="官网介绍: https://github.com/zfile-dev/zfile"
 		local docker_use=""
 		local docker_passwd=""
 		local app_size="1"
@@ -15259,7 +15259,7 @@ echo "LDNMP快取清理 k web cache"
 echo "安裝WordPress k wp |k wordpress |k wp xxx.com"
 echo "安裝反向代理 k fd |k rp |k 反代 |k fd xxx.com"
 echo "安裝負載平衡 k loadbalance |k 負載平衡"
-echo "安裝L4負載平衡 k stream |k L4負載平衡"
+echo "安装L4负载均衡      k stream |k L4负载均衡"
 echo "防火牆面板 k fhq |k 防火牆"
 echo "開放埠 k dkdk 8080 |k 開啟連接埠 8080"
 echo "關閉連接埠 k gbdk 7800 |k 關閉連接埠 7800"
